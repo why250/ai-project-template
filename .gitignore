@@ -1,0 +1,23 @@
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Dependencies
+node_modules/
+.venv/
+__pycache__/
+
+# Build output
+dist/
+build/
+.next/
+out/
+
+# Editor
+.DS_Store
+.idea/
+*.swp
+
+# Cursor local config (keep .cursor/rules and .cursor/skills committed)
+.cursor/mcp.json.local

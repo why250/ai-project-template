@@ -1,0 +1,29 @@
+---
+description: Core constraints loaded every session. Keep this file short — every line here costs attention on every task.
+alwaysApply: true
+---
+
+# Always Rules
+
+## Hard stops — ask before proceeding
+
+- Do not run destructive database operations (`DROP`, `TRUNCATE`, `DELETE` without `WHERE`) without explicit confirmation
+- Do not commit or push to `main`/`master` directly
+- Do not modify files in `docs/` without being told to update documentation
+- Do not expose secrets, tokens, or credentials in code or logs
+
+## Code discipline
+
+- No `any` types (TypeScript projects)
+- No commented-out dead code in commits
+- No `console.log` left in production code paths
+- Every new public function needs a docstring or JSDoc
+
+## After every task
+
+Ask: "Should this be added to rules or skills?"
+If yes → propose the addition. Do not add silently.
+
+---
+
+> This file should stay under 50 lines. Move anything longer to a specific rule file.

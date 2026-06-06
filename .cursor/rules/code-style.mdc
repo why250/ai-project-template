@@ -1,0 +1,47 @@
+---
+description: Code style and structure conventions. Load when generating or modifying code.
+alwaysApply: false
+---
+
+# Code Style Rules
+
+> Replace the examples below with your project's actual conventions.
+> Delete any section that doesn't apply to your stack.
+
+---
+
+## Naming
+
+- Variables and functions: `camelCase`
+- Types and classes: `PascalCase`
+- Constants: `UPPER_SNAKE_CASE`
+- Files: `kebab-case.ts`
+- Database columns: `snake_case`
+
+## Functions
+
+- Prefer pure functions over side-effect-heavy ones
+- Max function length: ~40 lines — extract if longer
+- Single responsibility: one function does one thing
+
+## Error handling
+
+- Never swallow errors silently
+- Always log the original error before rethrowing
+- User-facing errors must go through a central error formatter
+
+## Imports
+
+- Group order: stdlib → third-party → internal
+- No circular imports
+- Prefer named exports over default exports
+
+## Comments
+
+- Explain **why**, not **what**
+- TODO format: `// TODO(name): description` — always attributed
+- No commented-out code in commits
+
+---
+
+> Add project-specific patterns below as the codebase evolves.
