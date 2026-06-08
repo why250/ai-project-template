@@ -21,3 +21,6 @@ out/
 
 # Cursor local config (keep .cursor/rules and .cursor/skills committed)
 .cursor/mcp.json.local
+
+# Claude local config
+.claude/settings.json.local
