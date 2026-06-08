@@ -1,0 +1,43 @@
+---
+description: [One-line description of what domain this context covers and when it loads]
+globs: ["[file patterns that trigger this context — e.g., src/payments/**]"]
+alwaysApply: false
+---
+
+# [Domain] Context
+
+> Auto-loaded when working on: [restate globs in plain language]
+> Canonical detail in: [`docs/[domain]/[file].md`](../../docs/[domain]/[file].md)
+
+---
+
+## What you need to know
+
+<!-- 3-5 bullet points only. Derive from docs/, do not invent facts here.
+     If a fact changes, update docs/ first, then update this summary. -->
+
+- [Most important fact about this domain]
+- [Second most important fact]
+- [Key state machine, constraint, or invariant]
+- [Gotcha or non-obvious behavior]
+
+---
+
+## Key constraints for this domain
+
+<!-- Link to rules that apply when working here, don't copy their content -->
+
+- Behavior rules: [`.cursor/rules/[relevant].mdc`](../rules/[relevant].mdc)
+
+---
+
+## Where to find more
+
+- Full detail: [`docs/[domain]/[file].md`](../../docs/[domain]/[file].md)
+- Business rules: [`docs/business/[domain].md`](../../docs/business/[domain].md)
+- Architectural decisions: [`docs/architecture/decisions.md`](../../docs/architecture/decisions.md)
+
+---
+
+<!-- Keep this file under 40 lines. Trim summaries; link for depth. -->
+<!-- Created: [YYYY-MM-DD] | Last used: [YYYY-MM-DD] -->

@@ -43,6 +43,30 @@ Edit the other rule files to match your stack:
 - [ ] Delete `docs/*/README.md` guidance files once you've created real content
 - [ ] Keep `docs/architecture/overview.md` and `docs/architecture/decisions.md` — fill them in
 
+### 6. SSOT Registry
+
+- [ ] Open `docs/SSOT-map.md`
+- [ ] Add a row for every `docs/` file you created in steps 1-5
+- [ ] Verify no domain is listed in two rows (no duplicates)
+- [ ] Verify the "What does NOT live here" column is filled in for each row
+
+### 7. Context providers
+
+For each domain that has its own directory in your source code (`src/payments/`, `src/auth/`, etc.):
+- [ ] Copy `.cursor/context/_template.mdc` to `.cursor/context/[domain]-context.mdc`
+- [ ] Set `globs` to match the code file paths for that domain
+- [ ] Write 3-5 summary bullets derived from `docs/[domain]/` — do not invent facts
+- [ ] Keep the file under 40 lines
+
+If you have no code yet, skip this step and come back once source directories exist.
+
+### 8. Glob customization
+
+- [ ] Open each `.cursor/rules/*.mdc` and review the `globs` array
+- [ ] Remove glob patterns that don't match your stack (e.g., remove `*.py` if Python-only)
+- [ ] Add any project-specific paths that should trigger a rule
+- [ ] Misconfigured globs silently load irrelevant rules — trim them now
+
 ---
 
 ## As the project grows
@@ -61,7 +85,29 @@ After a task where you think: *"the AI should always do X"* or *"the AI should n
 .cursor/rules/[topic].mdc
 ```
 
-Add a row to the rules table in `AGENT.md`.
+Rules go in `rules/` — constraints on AI behavior. Add a row to the rules table in `AGENT.md`.
+If the content is domain facts (not behavior constraints), create a context provider in `context/` instead.
+
+### When to create a new context provider
+
+When a domain has its own source directory and you find yourself repeatedly loading the same `docs/` file as orientation:
+
+```
+.cursor/context/[domain]-context.mdc
+```
+
+Context providers go in `context/` — they summarize `docs/` facts and auto-attach via globs.
+Keep them under 40 lines. They link to `docs/`, they do not duplicate it.
+
+### When to write to LEARNINGS.md
+
+After any task where you noticed something non-obvious — a constraint you almost forgot, a workflow with unexpected steps, a decision you made that future-you will wonder about.
+
+Write the raw observation immediately, while context is fresh. Then distill it into a rule, skill, or ADR in the same session. See the entry template in `LEARNINGS.md`.
+
+### When to update SSOT-map.md
+
+Every time a new `docs/` file is created. Update the registry in the same commit — the registry must never lag behind the files it tracks.
 
 ### When to create a new skill
 

@@ -19,10 +19,25 @@ alwaysApply: true
 - No `console.log` left in production code paths
 - Every new public function needs a docstring or JSDoc
 
-## After every task
+## After every task — 3-question reflection
 
-Ask: "Should this be added to rules or skills?"
-If yes → propose the addition. Do not add silently.
+**Q1: Is there a constraint future sessions should always enforce?**
+Signal: "I had to remember not to X" / "this broke because we forgot Y"
+→ propose addition to `.cursor/rules/[topic].mdc`
+
+**Q2: Did we complete a repeatable workflow with non-obvious steps?**
+Signal: "I'd follow these same steps again for a similar task"
+→ propose `.cursor/skills/[domain]-[action]/`
+
+**Q3: Did a system fact change, or was a non-obvious decision made?**
+Signal: "This is now different from what docs/ says" / "future-me will wonder why"
+→ update canonical file per `docs/SSOT-map.md`, or append to `docs/architecture/decisions.md`
+
+Write the raw observation to `LEARNINGS.md` first. Then distill.
+Propose all additions — do not add silently.
+
+If the task modified any template files (`docs/`, `.cursor/rules/`, `.cursor/context/`, `AGENT.md`, `CLAUDE.md`):
+→ run `.cursor/rules/self-check.mdc` before closing
 
 ---
 

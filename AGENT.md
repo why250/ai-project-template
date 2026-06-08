@@ -2,7 +2,23 @@
 
 > This file is a **router**, not a knowledge base.
 > Do NOT add business logic, architecture details, or API specs here.
-> Every piece of knowledge lives exactly once, in `docs/`.
+> Every piece of knowledge lives exactly once, in `docs/`. See `docs/SSOT-map.md` for ownership.
+> Claude Code users: see `CLAUDE.md` (mirrors this file in Claude Code's idiom).
+
+---
+
+## Context Loading Hierarchy
+
+| Layer | What it provides | Mechanism |
+|-------|-----------------|-----------|
+| 0 | Always-on constraints | `always.mdc` (`alwaysApply: true`) |
+| 1 | Task-type routing | This file (AGENT.md) — semantic detection → docs |
+| 2 | Domain knowledge, auto-attached | `.cursor/context/*.mdc` globs + `.cursor/rules/*.mdc` globs |
+| 3 | Pinpoint doc sections | Specific links in the Layer 1 routing table |
+
+**Load only what the task requires. Do not load the full `docs/` tree.**
+
+---
 
 ---
 
@@ -41,21 +57,28 @@ All rules live in `.cursor/rules/`.
 | `testing.mdc` | Any new function, module, or API endpoint |
 | `database.mdc` | Any schema or migration change |
 | `security.mdc` | Auth, permissions, data handling |
+| `self-check.mdc` | After any change to docs/, rules/, context/, AGENT.md, CLAUDE.md |
 
 ---
 
-## Step 4 — Use Skills (SOPs)
+## Step 4 — Use Skills (SOPs) and Context Providers
 
 Before implementing a known workflow, check `.cursor/skills/` first.
 
 If a matching skill exists → follow it exactly.
 If no skill exists → implement, then consider creating one after.
 
+For domain knowledge orientation, check `.cursor/context/[domain]-context.mdc`.
+These auto-attach in Cursor via globs. In Claude Code, load manually per `CLAUDE.md`.
+
+- `.cursor/rules/` = behavior **constraints** (what to do / not do)
+- `.cursor/context/` = domain **knowledge** (facts for orientation, summarized from `docs/`)
+
 ---
 
 ## Step 5 — After Task Completion
 
-Ask yourself (or ask the user):
+Run the 3-question reflection from `.cursor/rules/always.mdc`:
 
 1. Did we encounter a constraint that should always be enforced?
    → Add to `.cursor/rules/`
@@ -64,37 +87,48 @@ Ask yourself (or ask the user):
    → Add to `.cursor/skills/`
 
 3. Did facts about the system change?
-   → Update the relevant file in `docs/` (SSOT only)
+   → Update the canonical file in `docs/` (check `docs/SSOT-map.md` for owner)
 
 4. Did we make a non-obvious architectural decision?
    → Append to `docs/architecture/decisions.md`
+
+5. Write the raw observation to `LEARNINGS.md` **before** distilling it anywhere.
+   Then distill. Propose all additions — do not add silently.
 
 ---
 
 ## Directory Map
 
+> For routing only. For canonical fact ownership, see `docs/SSOT-map.md`.
+
 ```
-AGENT.md                        ← you are here (router only)
-README.md                       → human-facing intro, links to docs/
+AGENT.md                          ← you are here (canonical router)
+CLAUDE.md                         → Claude Code entry point (mirrors this file)
+LEARNINGS.md                      → memory distillation staging buffer
+README.md                         → human-facing intro, links to docs/
 
 docs/
+  SSOT-map.md                     ← domain → canonical file registry
   architecture/
-    overview.md                 ← what the system is and how it's structured
-    decisions.md                ← ADR log: why we made key choices
-  business/                     ← domain logic, business rules, user flows
-  api/                          ← API contracts, endpoints, request/response shapes
-  database/                     ← schema, ERD, migration conventions
-  deployment/                   ← environments, CI/CD, runbooks
+    overview.md                   ← what the system is and how it's structured
+    decisions.md                  ← ADR log: why we made key choices
+  business/                       ← domain logic, business rules, user flows
+  api/                            ← API contracts, endpoints, request/response shapes
+  database/                       ← schema, ERD, migration conventions
+  deployment/                     ← environments, CI/CD, runbooks
 
 .cursor/
   rules/
-    always.mdc                  ← loaded every session, keep it short
-    code-style.mdc
-    testing.mdc
-    database.mdc
-    security.mdc
-  skills/                       ← SOPs accumulated over project lifetime
-    _template.md                ← copy this when creating a new skill
+    always.mdc                    ← loaded every session, keep it short
+    code-style.mdc                ← auto-attaches to source files
+    testing.mdc                   ← auto-attaches to test files
+    database.mdc                  ← auto-attaches to schema/migration files
+    security.mdc                  ← auto-attaches to auth/middleware files
+    self-check.mdc                ← auto-attaches to template/docs files; verifies 4-mechanism compliance
+  context/                        ← domain knowledge providers (summarize + link)
+    _template.mdc                 ← copy this when adding a new domain context
+  skills/                         ← SOPs accumulated over project lifetime
+    _template.md                  ← copy this when creating a new skill
 
 .gitignore
 ```
@@ -117,4 +151,5 @@ Every fact exists in **exactly one place**.
 - ❌ Business rules → `docs/business/`
 - ❌ Coding style preferences → `.cursor/rules/code-style.mdc`
 - ❌ How to deploy → `docs/deployment/`
-- ❌ Lessons learned → `.cursor/rules/` or `.cursor/skills/`
+- ❌ Lessons learned → `LEARNINGS.md` first, then distill to `.cursor/rules/` or `.cursor/skills/`
+- ❌ Domain facts → `docs/` canonical file (check `docs/SSOT-map.md` for which one)

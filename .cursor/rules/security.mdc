@@ -1,5 +1,6 @@
 ---
 description: Security constraints. Load when working on auth, permissions, data handling, or external integrations.
+globs: ["**/auth/**", "**/middleware/**", "**/guards/**", "**/permissions/**", "**/*.env*", "**/webhooks/**"]
 alwaysApply: false
 ---
 

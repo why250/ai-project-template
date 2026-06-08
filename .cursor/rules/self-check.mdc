@@ -1,0 +1,48 @@
+---
+description: Self-verification checklist. Run after any change to docs, rules, context, or routing files.
+globs: ["**/*.mdc", "docs/**/*.md", "AGENT.md", "CLAUDE.md", "LEARNINGS.md"]
+alwaysApply: false
+---
+
+# Self-Check — 4 Mechanism Compliance
+
+Run this checklist after every structural change to the template.
+**If any check fails, fix the violation before closing the task.**
+
+---
+
+## 1. SSOT — Single Source of Truth
+
+- [ ] Is the changed/added content now present in more than one file?
+      Fix: keep the fact in one canonical file; replace all other occurrences with links
+- [ ] Is every new `docs/` file registered in `docs/SSOT-map.md`?
+      Fix: add the row in the same commit as the new file
+- [ ] Does any file repeat a paragraph, table, or list from another file verbatim?
+      That is always a violation — one of them must become a link
+
+## 2. Hierarchical Context & Routing
+
+- [ ] Does `CLAUDE.md` contain ONLY Claude Code-specific differences?
+      It must NOT contain routing tables — those belong in `AGENT.md`
+- [ ] Is `AGENT.md` still the single source for routing logic?
+      Any routing change goes in `AGENT.md` only; `CLAUDE.md` links to it
+- [ ] Are any new rule or context files referenced in `AGENT.md`'s hierarchy table?
+
+## 3. MDC — Frontmatter Compliance
+
+- [ ] Do all `.mdc` files have a `description` field in frontmatter?
+- [ ] Does each `.mdc` have either `globs` (domain-specific) or `alwaysApply: true` (global)?
+      A file with neither will never auto-attach — it is effectively dead
+- [ ] Is new behavior-constraining content in `.cursor/rules/`?
+- [ ] Is new domain-knowledge content in `.cursor/context/`?
+      These two directories serve different purposes — do not mix them
+
+## 4. Memory Distillation
+
+- [ ] Was `LEARNINGS.md` written to before distilling anything to rules/skills/ADR/docs?
+- [ ] Does every new rule or skill trace back to a real observed task problem, not speculation?
+
+---
+
+> All checks pass → close the task.
+> Any check fails → fix first, then re-run this checklist from the top.

@@ -1,5 +1,6 @@
 ---
 description: Code style and structure conventions. Load when generating or modifying code.
+globs: ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx", "src/**/*.py", "app/**/*.ts", "app/**/*.tsx"]
 alwaysApply: false
 ---
 

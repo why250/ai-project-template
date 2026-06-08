@@ -1,5 +1,6 @@
 ---
 description: Testing requirements. Load when creating new functions, modules, or API endpoints.
+globs: ["**/*.test.ts", "**/*.test.js", "**/*.spec.ts", "**/*.spec.js", "**/*.test.tsx", "src/**/__tests__/**", "tests/**"]
 alwaysApply: false
 ---
 

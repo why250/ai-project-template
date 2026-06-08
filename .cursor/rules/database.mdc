@@ -1,5 +1,6 @@
 ---
 description: Rules for any database schema or data changes. Load when modifying models, schemas, or writing migrations.
+globs: ["**/migrations/**", "**/schema.*", "**/*.sql", "**/models/**", "**/prisma/**", "**/alembic/**"]
 alwaysApply: false
 ---
 
