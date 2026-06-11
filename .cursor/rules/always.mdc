@@ -1,44 +1,18 @@
 ---
-description: Core constraints loaded every session. Keep this file short — every line here costs attention on every task.
+description: Cursor auto-load trigger. Hard stops and code discipline live in AGENT.md and apply to every task regardless of harness.
 alwaysApply: true
 ---
 
-# Always Rules
+Constraints for this project live in `AGENT.md` (the "Hard stops" and "Code discipline" sections at the top).
+Read `AGENT.md` now if you have not already — those rules apply unconditionally.
 
-## Hard stops — ask before proceeding
+After every task, run the 3-question reflection:
 
-- Do not run destructive database operations (`DROP`, `TRUNCATE`, `DELETE` without `WHERE`) without explicit confirmation
-- Do not commit or push to `main`/`master` directly
-- Do not modify files in `docs/` without being told to update documentation
-- Do not expose secrets, tokens, or credentials in code or logs
+- **Q1:** Constraint to always enforce? → propose `.cursor/rules/[topic].mdc`
+- **Q2:** Repeatable workflow? → propose `.cursor/skills/[domain]-[action]/`
+- **Q3:** System fact changed or non-obvious decision made? → update canonical file per `docs/SSOT-map.md`, or append to `docs/architecture/decisions.md`
 
-## Code discipline
+Write raw observations to `LEARNINGS.md` first. Then distill. Propose all additions — do not add silently.
 
-- No `any` types (TypeScript projects)
-- No commented-out dead code in commits
-- No `console.log` left in production code paths
-- Every new public function needs a docstring or JSDoc
-
-## After every task — 3-question reflection
-
-**Q1: Is there a constraint future sessions should always enforce?**
-Signal: "I had to remember not to X" / "this broke because we forgot Y"
-→ propose addition to `.cursor/rules/[topic].mdc`
-
-**Q2: Did we complete a repeatable workflow with non-obvious steps?**
-Signal: "I'd follow these same steps again for a similar task"
-→ propose `.cursor/skills/[domain]-[action]/`
-
-**Q3: Did a system fact change, or was a non-obvious decision made?**
-Signal: "This is now different from what docs/ says" / "future-me will wonder why"
-→ update canonical file per `docs/SSOT-map.md`, or append to `docs/architecture/decisions.md`
-
-Write the raw observation to `LEARNINGS.md` first. Then distill.
-Propose all additions — do not add silently.
-
-If the task modified any template files (`docs/`, `.cursor/rules/`, `.cursor/context/`, `AGENT.md`, `CLAUDE.md`):
+If the task modified `docs/`, `.cursor/rules/`, `.cursor/context/`, or `AGENT.md`:
 → run `.cursor/rules/self-check.mdc` before closing
-
----
-
-> This file should stay under 50 lines. Move anything longer to a specific rule file.

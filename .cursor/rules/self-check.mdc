@@ -1,6 +1,6 @@
 ---
 description: Self-verification checklist. Run after any change to docs, rules, context, or routing files.
-globs: ["**/*.mdc", "docs/**/*.md", "AGENT.md", "CLAUDE.md", "LEARNINGS.md"]
+globs: ["**/*.mdc", "docs/**/*.md", "AGENT.md", "LEARNINGS.md"]
 alwaysApply: false
 ---
 
@@ -22,11 +22,12 @@ Run this checklist after every structural change to the template.
 
 ## 2. Hierarchical Context & Routing
 
-- [ ] Does `CLAUDE.md` contain ONLY Claude Code-specific differences?
-      It must NOT contain routing tables — those belong in `AGENT.md`
-- [ ] Is `AGENT.md` still the single source for routing logic?
-      Any routing change goes in `AGENT.md` only; `CLAUDE.md` links to it
+- [ ] Is `AGENT.md` still the single source for routing logic AND hard constraints?
+      Harness entry points (`CLAUDE.md`, `AGENTS.md`) are one-line redirects — never add content to them directly
+- [ ] If `AGENT.md`'s "Hard stops" or "Code discipline" sections changed, run `make validate` to confirm generated files still redirect correctly
 - [ ] Are any new rule or context files referenced in `AGENT.md`'s hierarchy table?
+- [ ] Did new constraints land in `.cursor/rules/` instead of `AGENT.md`?
+      Hard stops belong in `AGENT.md` (all harnesses); Cursor-only enhancements belong in `.cursor/rules/`
 
 ## 3. MDC — Frontmatter Compliance
 
@@ -41,6 +42,14 @@ Run this checklist after every structural change to the template.
 
 - [ ] Was `LEARNINGS.md` written to before distilling anything to rules/skills/ADR/docs?
 - [ ] Does every new rule or skill trace back to a real observed task problem, not speculation?
+
+## 5. Knowledge Placement
+
+- [ ] Does any new content in `docs/` pass the portability test?
+      (If it could apply to another project unchanged → it belongs in `skills/`, not `docs/`)
+- [ ] Does any new content in `skills/SKILL.md` contain deep examples or edge cases that belong in `references/details.md`?
+- [ ] Does any `skills/` content contain project-specific facts (URLs, table names, env vars)?
+      (If yes → move to `docs/` and link back from the skill)
 
 ---
 

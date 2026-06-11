@@ -40,4 +40,6 @@ alwaysApply: false
 ---
 
 <!-- Keep this file under 40 lines. Trim summaries; link for depth. -->
+<!-- If domain knowledge exceeds 40 lines, move the excess to .cursor/skills/[domain]-*/references/details.md
+     rather than expanding this context file. Context files summarize; skills carry depth. -->
 <!-- Created: [YYYY-MM-DD] | Last used: [YYYY-MM-DD] -->

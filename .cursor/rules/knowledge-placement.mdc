@@ -1,0 +1,41 @@
+---
+description: Governs where to place knowledge — docs/, skills/SKILL.md, or skills/references/. Apply whenever writing, moving, or reviewing any knowledge file.
+globs: ["docs/**/*.md", ".cursor/skills/**", ".cursor/context/**", "LEARNINGS.md"]
+alwaysApply: false
+---
+
+# Knowledge Placement Rules
+
+## Core question
+
+Before writing anything, ask: **"Is this a fact about the system, or a method for doing something?"**
+
+- Fact about THIS project → `docs/`
+- How to do something (repeatable procedure) → `.cursor/skills/[name]/SKILL.md`
+- Deep detail supporting a how-to → `.cursor/skills/[name]/references/details.md`
+
+## Two boundary checks
+
+**Check 1 — Portability test:**
+Copy this content to a different project. Does it still hold?
+- No (project-specific) → `docs/`
+- Yes (methodology / best practice) → `.cursor/skills/`
+
+**Check 2 — Frequency test:**
+Is this needed every time the skill is executed?
+- Yes (essential steps, key constraints) → `SKILL.md` body
+- Occasionally (edge cases, long examples, advanced variants) → `references/details.md`
+
+## Three-tier placement summary
+
+| Tier | File | What goes here |
+|------|------|----------------|
+| Facts | `docs/[domain]/[file].md` | Project truths: schema, APIs, config, business rules |
+| Core skill | `.cursor/skills/[name]/SKILL.md` | Repeatable steps, constraints, gotchas |
+| Deep detail | `.cursor/skills/[name]/references/details.md` | Long examples, edge cases, tool docs |
+
+## Anti-patterns — never do these
+
+- Do NOT put methodology (patterns, best practices) into `docs/` — it pollutes project facts with generic knowledge
+- Do NOT put project-specific facts into `skills/references/` — skills should survive copy to another project unchanged
+- Do NOT duplicate: if a fact exists in `docs/`, link to it from the skill; do not copy the fact into the skill

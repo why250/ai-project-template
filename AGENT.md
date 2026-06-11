@@ -1,9 +1,25 @@
 # AGENT.md — Context Router
 
-> This file is a **router**, not a knowledge base.
-> Do NOT add business logic, architecture details, or API specs here.
-> Every piece of knowledge lives exactly once, in `docs/`. See `docs/SSOT-map.md` for ownership.
-> Claude Code users: see `CLAUDE.md` (mirrors this file in Claude Code's idiom).
+> This file is read by every AI harness (Cursor, Claude Code, Codex CLI, Gemini CLI).
+> Hard stops and code discipline are inline below — they apply regardless of harness.
+> Routing and domain knowledge live in `docs/`. See `docs/SSOT-map.md` for ownership.
+> Other harnesses (CLAUDE.md, AGENTS.md) redirect here — this is the single source.
+
+---
+
+## Hard stops — ask before proceeding
+
+- Do not run destructive database operations (`DROP`, `TRUNCATE`, `DELETE` without `WHERE`) without explicit confirmation
+- Do not commit or push to `main`/`master` directly
+- Do not modify files in `docs/` without being told to update documentation
+- Do not expose secrets, tokens, or credentials in code or logs
+
+## Code discipline
+
+- No `any` types (TypeScript projects)
+- No commented-out dead code in commits
+- No `console.log` left in production code paths
+- Every new public function needs a docstring or JSDoc
 
 ---
 
@@ -11,14 +27,12 @@
 
 | Layer | What it provides | Mechanism |
 |-------|-----------------|-----------|
-| 0 | Always-on constraints | `always.mdc` (`alwaysApply: true`) |
+| 0 | Hard stops + code discipline | Inline above — visible to every harness |
 | 1 | Task-type routing | This file (AGENT.md) — semantic detection → docs |
-| 2 | Domain knowledge, auto-attached | `.cursor/context/*.mdc` globs + `.cursor/rules/*.mdc` globs |
+| 2 | Domain knowledge, auto-attached | `.cursor/context/*.mdc` globs + `.cursor/rules/*.mdc` globs (Cursor only) |
 | 3 | Pinpoint doc sections | Specific links in the Layer 1 routing table |
 
 **Load only what the task requires. Do not load the full `docs/` tree.**
-
----
 
 ---
 
@@ -26,38 +40,48 @@
 
 Before any task, read:
 - `docs/architecture/overview.md` — what this system is
-- `.cursor/rules/always.mdc` — non-negotiable constraints
 
 ---
 
 ## Step 2 — Identify Task Domain
 
-| Task type | Load these docs |
-|-----------|----------------|
-| New feature | `docs/architecture/overview.md` + relevant `docs/business/` |
-| API change | `docs/api/` |
-| Database change | `docs/database/` |
-| Bug fix | `docs/architecture/overview.md` + file context |
-| Deployment | `docs/deployment/` |
-| Refactor | `docs/architecture/` + `docs/architecture/decisions.md` |
-| Unknown | Ask the user before loading anything |
+| Task type | Load these docs | Suggested model |
+|-----------|----------------|-----------------|
+| New feature | `docs/architecture/overview.md` + relevant `docs/business/` | Sonnet |
+| API change | `docs/api/` | Sonnet |
+| Database change | `docs/database/` | Sonnet |
+| Bug fix | `docs/architecture/overview.md` + file context | Sonnet / Haiku |
+| Deployment | `docs/deployment/` | Haiku |
+| Refactor | `docs/architecture/` + `docs/architecture/decisions.md` | Opus |
+| Security review | security context + full module | Opus |
+| Write tests / docs | file context only | Haiku |
+| Unknown | Ask the user before loading anything | — |
 
 **Rule: Load only what the task requires. Do not load the full `docs/` tree.**
+
+## Model Tiers
+
+| Tier | Use when |
+|------|----------|
+| Opus | Architecture decisions, security review, cross-cutting refactors |
+| Sonnet | Feature development, API/DB design, debugging |
+| Haiku | Tests, docs, scaffolding, deployment commands |
 
 ---
 
 ## Step 3 — Apply Rules
 
-All rules live in `.cursor/rules/`.
+Hard stops and code discipline are already inline above (all harnesses).
+The rules below are Cursor-specific enhancements (auto-attach via MDC globs):
 
 | Rule file | When it applies |
 |-----------|----------------|
-| `always.mdc` | Every task, no exceptions |
+| `always.mdc` | Cursor auto-load trigger (points back to this file) |
 | `code-style.mdc` | Any code generation or modification |
 | `testing.mdc` | Any new function, module, or API endpoint |
 | `database.mdc` | Any schema or migration change |
 | `security.mdc` | Auth, permissions, data handling |
-| `self-check.mdc` | After any change to docs/, rules/, context/, AGENT.md, CLAUDE.md |
+| `self-check.mdc` | After any change to docs/, rules/, context/, AGENT.md |
 
 ---
 
@@ -69,16 +93,16 @@ If a matching skill exists → follow it exactly.
 If no skill exists → implement, then consider creating one after.
 
 For domain knowledge orientation, check `.cursor/context/[domain]-context.mdc`.
-These auto-attach in Cursor via globs. In Claude Code, load manually per `CLAUDE.md`.
+These auto-attach in Cursor via globs. In other harnesses, load them manually.
 
-- `.cursor/rules/` = behavior **constraints** (what to do / not do)
+- `.cursor/rules/` = Cursor-specific behavior enhancements (hard stops are inline above)
 - `.cursor/context/` = domain **knowledge** (facts for orientation, summarized from `docs/`)
 
 ---
 
 ## Step 5 — After Task Completion
 
-Run the 3-question reflection from `.cursor/rules/always.mdc`:
+Run the 3-question reflection:
 
 1. Did we encounter a constraint that should always be enforced?
    → Add to `.cursor/rules/`
@@ -103,7 +127,8 @@ Run the 3-question reflection from `.cursor/rules/always.mdc`:
 
 ```
 AGENT.md                          ← you are here (canonical router)
-CLAUDE.md                         → Claude Code entry point (mirrors this file)
+CLAUDE.md                         → Claude Code entry point (generated by `make setup`)
+AGENTS.md                         → Codex CLI entry point (generated by `make setup`)
 LEARNINGS.md                      → memory distillation staging buffer
 README.md                         → human-facing intro, links to docs/
 
@@ -128,7 +153,9 @@ docs/
   context/                        ← domain knowledge providers (summarize + link)
     _template.mdc                 ← copy this when adding a new domain context
   skills/                         ← SOPs accumulated over project lifetime
-    _template.md                  ← copy this when creating a new skill
+    _template/                    ← copy this directory when creating a new skill
+      SKILL.md                    ← frontmatter + core guidance (Tier 1+2)
+      references/details.md       ← deep detail, examples (Tier 3, load on demand)
 
 .gitignore
 ```
