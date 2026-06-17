@@ -21,7 +21,14 @@ See [AGENT.md](AGENT.md).
 ## Quick start
 
 ```bash
-# fill in your actual setup commands
+python tools/setup_harness.py --list
+python tools/setup_harness.py --describe
+python tools/setup_harness.py --all --dry-run
+python tools/setup_harness.py --harness codex --commit
+python tools/generate_adapters.py --harness cursor
+python tools/validate_generated.py
+python tools/validate_harness.py
+python tools/validate_template.py
 ```
 
 ---

@@ -1,0 +1,25 @@
+{
+  "name": "project-template",
+  "version": "0.1.0",
+  "description": "Project-local AI collaboration assets: rules, context providers, and repeatable workflow skills.",
+  "source": "local",
+  "outputs": {
+    "cursor": {
+      "rules": ".cursor/rules/",
+      "context": ".cursor/context/",
+      "skills": ".cursor/skills/"
+    },
+    "codex": {
+      "skills": ".codex/skills/"
+    },
+    "claude_code": {
+      "skills": ".claude/skills/"
+    },
+    "gemini": {
+      "skills": "skills/"
+    },
+    "opencode": {
+      "skills": ".opencode/skills/"
+    }
+  }
+}

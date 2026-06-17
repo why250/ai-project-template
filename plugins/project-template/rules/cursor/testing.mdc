@@ -1,0 +1,48 @@
+---
+description: Testing requirements. Load when creating new functions, modules, or API endpoints.
+globs: ["**/*.test.ts", "**/*.test.js", "**/*.spec.ts", "**/*.spec.js", "**/*.test.tsx", "src/**/__tests__/**", "tests/**"]
+alwaysApply: false
+---
+
+# Testing Rules
+
+## Coverage requirements
+
+- Every new API endpoint must have at least one integration test
+- Every utility function must have unit tests covering:
+  - Happy path
+  - Edge cases (empty input, nulls, boundaries)
+  - Error cases
+- Business logic functions: 100% branch coverage
+
+## Test structure
+
+```
+describe('[unit under test]', () => {
+  describe('[scenario / method]', () => {
+    it('should [expected behavior] when [condition]', () => {
+      // Arrange
+      // Act
+      // Assert
+    })
+  })
+})
+```
+
+## Test data
+
+- Use factories/fixtures, never hardcoded magic IDs
+- Tests must not depend on execution order
+- Tests must not share mutable state
+
+## What not to test
+
+- Third-party library internals
+- Framework behavior (e.g., Next.js routing)
+- Implementation details — test behavior, not internals
+
+## Running tests
+
+```bash
+# fill in your actual test commands
+```

@@ -1,0 +1,92 @@
+{
+  "version": 1,
+  "canonical_router": "AGENT.md",
+  "generated_entry_content": "AGENT.md\n",
+  "adapters": [
+    {
+      "key": "cursor",
+      "label": "Cursor",
+      "generated": false,
+      "entry_point": ".cursor/",
+      "template": null,
+      "asset_generation": {
+        "source": "plugins/",
+        "outputs": [".cursor/rules/", ".cursor/context/", ".cursor/skills/"],
+        "command": "python tools/generate_adapters.py --harness cursor"
+      },
+      "auto_loads_mdc": true,
+      "context_loading": "Cursor auto-attaches matching .cursor/context/*.mdc files by frontmatter globs.",
+      "rules_loading": "Cursor auto-attaches .cursor/rules/*.mdc files by alwaysApply or globs.",
+      "skills_loading": "Cursor reads generated .cursor/skills/[domain-action]/SKILL.md files.",
+      "note": "Cursor entry files are committed, but rules/context/skills are generated from plugins/."
+    },
+    {
+      "key": "codex",
+      "label": "Codex CLI",
+      "generated": true,
+      "entry_point": "AGENTS.md",
+      "template": "codex.md.tmpl",
+      "asset_generation": {
+        "source": "plugins/",
+        "outputs": [".codex/skills/"],
+        "command": "python tools/generate_adapters.py --harness codex"
+      },
+      "auto_loads_mdc": false,
+      "context_loading": "Read AGENT.md as the canonical router. Project facts stay in docs/; Cursor .mdc context is not auto-loaded by Codex.",
+      "rules_loading": "Hard stops and code discipline come from AGENT.md. Cursor-only .mdc rules are optional manual context outside Cursor.",
+      "skills_loading": "Use generated .codex/skills/<plugin>__<skill>/SKILL.md when available; manual skill loading is fallback only.",
+      "note": "Codex reads AGENTS.md at repo root; skills are generated from plugins/."
+    },
+    {
+      "key": "claude_code",
+      "label": "Claude Code",
+      "generated": true,
+      "entry_point": "CLAUDE.md",
+      "template": "claude.md.tmpl",
+      "asset_generation": {
+        "source": "plugins/",
+        "outputs": [".claude/skills/"],
+        "command": "python tools/generate_adapters.py --harness claude_code"
+      },
+      "auto_loads_mdc": false,
+      "context_loading": "Read AGENT.md as the canonical router. Project facts stay in docs/; Cursor .mdc context is not auto-loaded by Claude Code.",
+      "rules_loading": "Hard stops and code discipline come from AGENT.md. Cursor-only .mdc rules are optional manual context outside Cursor.",
+      "skills_loading": "Use generated .claude/skills/<plugin>__<skill>/SKILL.md when available; manual skill loading is fallback only.",
+      "note": "Claude Code reads CLAUDE.md at repo root; skills are generated from plugins/."
+    },
+    {
+      "key": "gemini",
+      "label": "Gemini CLI",
+      "generated": true,
+      "entry_point": "GEMINI.md",
+      "template": "gemini.md.tmpl",
+      "asset_generation": {
+        "source": "plugins/",
+        "outputs": ["skills/"],
+        "command": "python tools/generate_adapters.py --harness gemini"
+      },
+      "auto_loads_mdc": false,
+      "context_loading": "Read AGENT.md as the canonical router. Project facts stay in docs/; Cursor .mdc context is not auto-loaded by Gemini.",
+      "rules_loading": "Hard stops and code discipline come from AGENT.md. Cursor-only .mdc rules are optional manual context outside Cursor.",
+      "skills_loading": "Use generated skills/<plugin>__<skill>/SKILL.md when available; manual skill loading is fallback only.",
+      "note": "Gemini CLI reads GEMINI.md when configured for the repository; skills are generated from plugins/."
+    },
+    {
+      "key": "opencode",
+      "label": "OpenCode",
+      "generated": true,
+      "entry_point": ".opencode/AGENTS.md",
+      "template": "opencode.md.tmpl",
+      "asset_generation": {
+        "source": "plugins/",
+        "outputs": [".opencode/skills/"],
+        "command": "python tools/generate_adapters.py --harness opencode"
+      },
+      "auto_loads_mdc": false,
+      "context_loading": "Read AGENT.md as the canonical router. Project facts stay in docs/; Cursor .mdc context is not auto-loaded by OpenCode.",
+      "rules_loading": "Hard stops and code discipline come from AGENT.md. Cursor-only .mdc rules are optional manual context outside Cursor.",
+      "skills_loading": "Use generated .opencode/skills/<plugin>-<skill>/SKILL.md when available; manual skill loading is fallback only.",
+      "note": "OpenCode reads .opencode/AGENTS.md; skills are generated from plugins/."
+    }
+  ]
+}

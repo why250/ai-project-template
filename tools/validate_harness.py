@@ -11,28 +11,38 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).parent.parent
+ADAPTERS_MANIFEST = Path(__file__).parent / "harness_adapters.json"
 
-HARNESS_FILES: dict[str, str] = {
-    "CLAUDE.md": "claude_code",
-    "AGENTS.md": "codex",
-    "GEMINI.md": "gemini",
-    ".opencode/AGENTS.md": "opencode",
-}
+def load_manifest() -> dict:
+    """Load the shared cross-harness adapter manifest."""
+    return json.loads(ADAPTERS_MANIFEST.read_text(encoding="utf-8"))
 
-EXPECTED_CONTENT = "AGENT.md\n"
+
+def generated_harness_files() -> dict[str, str]:
+    """Return generated entry-point paths keyed to their adapter key."""
+    manifest = load_manifest()
+    return {
+        adapter["entry_point"]: adapter["key"]
+        for adapter in manifest["adapters"]
+        if adapter.get("generated")
+    }
+
+
+EXPECTED_CONTENT = load_manifest()["generated_entry_content"]
 
 
 def validate(strict: bool = False) -> bool:
     all_ok = True
 
-    for rel_path, harness_key in HARNESS_FILES.items():
+    for rel_path, harness_key in generated_harness_files().items():
         full_path = REPO_ROOT / rel_path
         if not full_path.exists():
-            print(f"  SKIP  {rel_path} (not generated — run `make setup` to create)")
+            print(f"  SKIP  {rel_path} (not generated - run `make setup` to create)")
             if strict:
                 all_ok = False
             continue

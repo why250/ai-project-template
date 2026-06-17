@@ -1,0 +1,41 @@
+---
+description: Rules for any database schema or data changes. Load when modifying models, schemas, or writing migrations.
+globs: ["**/migrations/**", "**/schema.*", "**/*.sql", "**/models/**", "**/prisma/**", "**/alembic/**"]
+alwaysApply: false
+---
+
+# Database Rules
+
+## Schema changes
+
+- Every schema change requires a migration file — never mutate schema by hand
+- Migrations must be reversible: always write a `down` migration
+- Migration file naming: `YYYYMMDDHHMMSS_short_description`
+- Test migrations against a production data copy before deploying
+
+## Data safety
+
+- `DELETE` statements must always have a `WHERE` clause
+- Prefer soft deletes (`deleted_at`) over hard deletes for user-facing data
+- Never run raw SQL in production without a backup confirmation
+- Bulk updates must be batched (max 1000 rows per statement in prod)
+
+## Indexes
+
+- Add an index for every foreign key
+- Add an index for every field used in a `WHERE` clause in high-traffic queries
+- Document index rationale in `docs/database/indexes.md`
+
+## Naming
+
+- Tables: `snake_case`, plural (e.g., `user_sessions`)
+- Columns: `snake_case`
+- Indexes: `idx_[table]_[column(s)]`
+- Foreign keys: `fk_[table]_[referenced_table]`
+
+## Before any migration in production
+
+1. Take a database snapshot
+2. Run migration on staging first
+3. Verify with a read query that data looks correct
+4. Deploy with rollback plan ready

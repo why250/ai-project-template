@@ -1,0 +1,39 @@
+---
+description: Security constraints. Load when working on auth, permissions, data handling, or external integrations.
+globs: ["**/auth/**", "**/middleware/**", "**/guards/**", "**/permissions/**", "**/*.env*", "**/webhooks/**"]
+alwaysApply: false
+---
+
+# Security Rules
+
+## Authentication
+
+- Never roll custom auth — use the established auth library for this project
+- JWTs must have an expiry (`exp` claim)
+- Refresh tokens must be rotated on use
+- Failed login attempts must be rate-limited
+
+## Authorization
+
+- Check permissions at the service layer, not just the route layer
+- Never trust client-supplied user IDs — derive identity from the session/token
+- Principle of least privilege: request only the permissions actually needed
+
+## Data handling
+
+- Never log PII (emails, names, IDs in combination, payment info)
+- Sanitize all user input before using in queries (parameterized queries only)
+- Never interpolate user input into SQL strings
+- Encrypt sensitive fields at rest (PII, tokens, secrets)
+
+## Secrets
+
+- Secrets go in environment variables only — never hardcoded
+- Never commit `.env` files
+- Rotate any secret that was accidentally logged or exposed
+
+## External requests
+
+- Validate webhooks with signatures (e.g., Stripe-Signature header)
+- Set timeouts on all outgoing HTTP requests
+- Never forward raw external payloads to internal systems without validation
