@@ -23,7 +23,7 @@ Run this checklist after every structural change to the template.
 ## 2. Hierarchical Context & Routing
 
 - [ ] Is `AGENT.md` still the single source for routing logic AND hard constraints?
-      Harness entry points (`CLAUDE.md`, `AGENTS.md`) are one-line redirects — never add content to them directly
+      Harness entry points (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `.opencode/AGENTS.md`) are one-line redirects — never add content to them directly
 - [ ] If `AGENT.md`'s "Hard stops" or "Code discipline" sections changed, run `make validate` to confirm generated files still redirect correctly
 - [ ] Are any new rule or context files referenced in `AGENT.md`'s hierarchy table?
 - [ ] Did new constraints land in `plugins/project-template/rules/cursor/` instead of `AGENT.md`?

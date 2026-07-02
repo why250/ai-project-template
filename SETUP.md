@@ -34,7 +34,7 @@ Edit the other rule files to match your stack:
 
 ### 4. README.md
 
-- [ ] Replace `[Project Name]`
+- [ ] After copying this template into a real project, replace `AI Project Template` with the project name
 - [ ] Add actual quick start commands
 - [ ] Add links to docs that exist
 
@@ -59,6 +59,8 @@ For each domain that has its own directory in your source code (`src/payments/`,
 - [ ] Keep the file under 40 lines
 
 If you have no code yet, skip this step and come back once source directories exist.
+
+Non-Cursor harnesses do not auto-load Cursor MDC context. Their generated skill directories include README indexes that point back to `AGENT.md`, `docs/SSOT-map.md`, and the plugin source.
 
 ### 8. Glob customization
 
@@ -125,9 +127,18 @@ Add the skill to the skills table in `AGENT.md` only if it should be discoverabl
 After editing `AGENT.md`, `docs/`, `plugins/`, `.cursor/rules/`, `.cursor/context/`, `.cursor/skills/`, or `tools/harness_templates/`:
 
 ```bash
+python tools/check_template.py
+# Optional when make is available:
+make check
+```
+
+Equivalent individual checks:
+
+```bash
 python tools/validate_template.py
 python tools/validate_generated.py
-python tools/validate_harness.py
+python tools/validate_harness.py --strict
+python tools/generate_adapters.py --all --dry-run
 ```
 
 If you add or change a supported AI harness, update `tools/harness_adapters.json` first.
@@ -162,6 +173,8 @@ Generate all native skill outputs only when you want local Codex, Claude Code, G
 ```bash
 python tools/generate_adapters.py --all
 ```
+
+Those non-Cursor outputs are ignored by git by default; the committed harness entry points remain one-line redirects to `AGENT.md`.
 
 Use strict harness validation in CI after generated entry points are expected to exist:
 

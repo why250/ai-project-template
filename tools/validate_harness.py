@@ -1,10 +1,10 @@
 """
-Validates that generated harness entry-point files are correct one-line redirects to AGENT.md.
+Validates that committed generated harness entry-point files are correct one-line redirects to AGENT.md.
 
 Each generated file should contain exactly: AGENT.md
 
 Usage:
-    python tools/validate_harness.py         # check all known generated files
+    python tools/validate_harness.py         # check existing known generated files
     python tools/validate_harness.py --strict  # exit 1 on any drift or missing file
 """
 

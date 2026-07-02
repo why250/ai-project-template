@@ -34,7 +34,7 @@
       "auto_loads_mdc": false,
       "context_loading": "Read AGENT.md as the canonical router. Project facts stay in docs/; Cursor .mdc context is not auto-loaded by Codex.",
       "rules_loading": "Hard stops and code discipline come from AGENT.md. Cursor-only .mdc rules are optional manual context outside Cursor.",
-      "skills_loading": "Use generated .codex/skills/<plugin>__<skill>/SKILL.md when available; manual skill loading is fallback only.",
+      "skills_loading": "Use generated .codex/skills/<plugin>__<skill>/SKILL.md when available; .codex/skills/README.md indexes generated skills and context fallback.",
       "note": "Codex reads AGENTS.md at repo root; skills are generated from plugins/."
     },
     {
@@ -51,7 +51,7 @@
       "auto_loads_mdc": false,
       "context_loading": "Read AGENT.md as the canonical router. Project facts stay in docs/; Cursor .mdc context is not auto-loaded by Claude Code.",
       "rules_loading": "Hard stops and code discipline come from AGENT.md. Cursor-only .mdc rules are optional manual context outside Cursor.",
-      "skills_loading": "Use generated .claude/skills/<plugin>__<skill>/SKILL.md when available; manual skill loading is fallback only.",
+      "skills_loading": "Use generated .claude/skills/<plugin>__<skill>/SKILL.md when available; .claude/skills/README.md indexes generated skills and context fallback.",
       "note": "Claude Code reads CLAUDE.md at repo root; skills are generated from plugins/."
     },
     {
@@ -68,7 +68,7 @@
       "auto_loads_mdc": false,
       "context_loading": "Read AGENT.md as the canonical router. Project facts stay in docs/; Cursor .mdc context is not auto-loaded by Gemini.",
       "rules_loading": "Hard stops and code discipline come from AGENT.md. Cursor-only .mdc rules are optional manual context outside Cursor.",
-      "skills_loading": "Use generated skills/<plugin>__<skill>/SKILL.md when available; manual skill loading is fallback only.",
+      "skills_loading": "Use generated skills/<plugin>__<skill>/SKILL.md when available; skills/README.md indexes generated skills and context fallback.",
       "note": "Gemini CLI reads GEMINI.md when configured for the repository; skills are generated from plugins/."
     },
     {
@@ -85,7 +85,7 @@
       "auto_loads_mdc": false,
       "context_loading": "Read AGENT.md as the canonical router. Project facts stay in docs/; Cursor .mdc context is not auto-loaded by OpenCode.",
       "rules_loading": "Hard stops and code discipline come from AGENT.md. Cursor-only .mdc rules are optional manual context outside Cursor.",
-      "skills_loading": "Use generated .opencode/skills/<plugin>-<skill>/SKILL.md when available; manual skill loading is fallback only.",
+      "skills_loading": "Use generated .opencode/skills/<plugin>-<skill>/SKILL.md when available; .opencode/skills/README.md indexes generated skills and context fallback.",
       "note": "OpenCode reads .opencode/AGENTS.md; skills are generated from plugins/."
     }
   ]

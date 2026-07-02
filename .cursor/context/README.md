@@ -54,7 +54,8 @@ After editing context providers, run `python tools/generate_adapters.py --harnes
 
 ---
 
-## Claude Code users
+## Non-Cursor harness users
 
-Claude Code does not use glob auto-attach. Instead, `CLAUDE.md` references the context directory.
-When working in a domain, load the relevant context MDC manually per the Layer 2 routing in `CLAUDE.md`.
+Codex, Claude Code, Gemini, and OpenCode do not use Cursor glob auto-attach.
+Their generated skill directories include README indexes that point back to `AGENT.md`, `docs/SSOT-map.md`, and the plugin source.
+When working in a domain outside Cursor, use `AGENT.md` to choose the canonical docs first; load context MDC files only as optional summaries.

@@ -4,10 +4,12 @@
 
 | Command | Purpose |
 |---------|---------|
+| `python tools/check_template.py` | Runs the full cross-platform template validation suite and previews every harness adapter output. |
+| `make check` | Convenience wrapper for `python tools/check_template.py` when Make is available. |
 | `python tools/validate_template.py` | Checks structural wiring: markdown links, rule registration, adapter manifest, harness templates, SSOT concrete paths, and skill template contract. |
 | `python tools/validate_generated.py` | Checks committed Cursor output against `plugins/project-template/`. |
-| `python tools/validate_harness.py` | Checks generated harness entry-point files such as `AGENTS.md` and `CLAUDE.md`. |
-| `python tools/generate_adapters.py --all --dry-run` | Shows what Codex, Claude Code, Cursor, Gemini, and OpenCode adapters would emit. |
+| `python tools/validate_harness.py --strict` | Checks committed generated harness entry-point files such as `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, and `.opencode/AGENTS.md`. |
+| `python tools/generate_adapters.py --all --dry-run` | Shows what Codex, Claude Code, Cursor, Gemini, and OpenCode adapters would emit, including non-Cursor README indexes. |
 
 ## Expected Source Boundaries
 

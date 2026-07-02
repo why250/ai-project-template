@@ -2,7 +2,7 @@
 Validate structural contracts for this AI project template.
 
 This complements validate_harness.py:
-- validate_harness.py checks generated harness entry-point files.
+- validate_harness.py checks committed generated harness entry-point files.
 - validate_template.py checks the template source files and documentation wiring.
 
 Usage:
@@ -171,8 +171,6 @@ def is_generated_or_pattern(path_text: str) -> bool:
         or "]" in path_text
         or "*" in path_text
         or "," in path_text
-        or path_text in {"CLAUDE.md", "AGENTS.md", "GEMINI.md"}
-        or path_text.startswith(".opencode/")
     )
 
 

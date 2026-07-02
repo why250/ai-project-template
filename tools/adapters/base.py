@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import shutil
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -96,6 +97,17 @@ def skill_dirs(plugin: Plugin, *, include_private: bool = False) -> list[Path]:
     return dirs
 
 
+def context_provider_files(plugin: Plugin) -> list[Path]:
+    """Return public Cursor context providers from a plugin."""
+    if not plugin.context_dir.exists():
+        return []
+    return [
+        path
+        for path in sorted(plugin.context_dir.glob("*.mdc"))
+        if path.is_file() and not path.name.startswith("_")
+    ]
+
+
 def rewrite_skill_name(content: str, name: str) -> str:
     if not content.startswith("---\n"):
         return f"---\nname: {name}\n---\n\n{content}"
@@ -152,6 +164,77 @@ def emit_skill_dir(
         out.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(item, out)
 
+    return written
+
+
+def emit_asset_index(
+    plugins: list[Plugin],
+    dst_dir: Path,
+    *,
+    harness_label: str,
+    harness_key: str,
+    skill_name: Callable[[Plugin, str], str],
+    dry_run: bool,
+) -> list[Path]:
+    """Emit a README that explains generated non-Cursor asset discovery."""
+    out = ensure_inside_repo(dst_dir / "README.md")
+    written = [out]
+    if dry_run:
+        print(f"  Would write: {out.relative_to(REPO_ROOT)}")
+        return written
+
+    lines = [
+        f"# Generated {harness_label} AI Assets",
+        "",
+        "> Generated from `plugins/`. Do not edit this directory by hand.",
+        "",
+        "Read `AGENT.md` first. It is the canonical router for hard stops, task routing, docs, rules, and skills.",
+        "",
+        "## Skills",
+        "",
+    ]
+
+    skill_lines: list[str] = []
+    for plugin in plugins:
+        for skill in skill_dirs(plugin):
+            generated_name = skill_name(plugin, skill.name)
+            source = (plugin.skills_dir / skill.name / "SKILL.md").relative_to(REPO_ROOT).as_posix()
+            skill_lines.append(f"- `{generated_name}`: generated from `{source}`")
+
+    lines.extend(skill_lines or ["- No public skills found yet."])
+    lines.extend(
+        [
+            "",
+            "## Context",
+            "",
+            "This harness does not auto-load Cursor MDC context providers.",
+            "Use `AGENT.md` and `docs/SSOT-map.md` to find the canonical docs for the task.",
+        ]
+    )
+
+    context_lines: list[str] = []
+    for plugin in plugins:
+        for context in context_provider_files(plugin):
+            source = context.relative_to(REPO_ROOT).as_posix()
+            context_lines.append(f"- Context hint source: `{source}`")
+
+    if context_lines:
+        lines.extend(["", "Available context hint sources:"])
+        lines.extend(context_lines)
+
+    lines.extend(
+        [
+            "",
+            "## Regeneration",
+            "",
+            f"Run `python tools/generate_adapters.py --harness {harness_key}` to refresh this directory.",
+            "Run `python tools/generate_adapters.py --all --dry-run` to preview every harness output.",
+            "",
+        ]
+    )
+
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text("\n".join(lines), encoding="utf-8")
     return written
 
 

@@ -2,7 +2,15 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from tools.adapters.base import Adapter, Plugin, REPO_ROOT, clean_dir, emit_skill_dir, skill_dirs
+from tools.adapters.base import (
+    Adapter,
+    Plugin,
+    REPO_ROOT,
+    clean_dir,
+    emit_asset_index,
+    emit_skill_dir,
+    skill_dirs,
+)
 
 
 class ClaudeCodeAdapter(Adapter):
@@ -23,4 +31,14 @@ class ClaudeCodeAdapter(Adapter):
                         dry_run=dry_run,
                     )
                 )
+        written.extend(
+            emit_asset_index(
+                plugins,
+                root,
+                harness_label="Claude Code",
+                harness_key=self.key,
+                skill_name=lambda plugin, name: f"{plugin.name}__{name}",
+                dry_run=dry_run,
+            )
+        )
         return written
